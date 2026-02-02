@@ -48,3 +48,12 @@ as.data.frame(elecdemand) |>
   ggplot(aes(x = Temperature, y = Demand)) +
   geom_point() +
   ylab("Demand (GW)") + xlab("Temperature (Celcius)")
+
+# Scatterplot matrices
+autoplot(visnights[,1:5], facets = TRUE) +
+  ylab("Number of visitor nights each quarter (millions)")
+
+install.packages("GGally")
+GGally::ggpairs(as.data.frame(visnights[, 1:5]))
+
+print(visnights)
