@@ -18,3 +18,33 @@ autoplot(a10) +
   ggtitle("Monthly sales of Antidiabetic drug in Australia") +
   ylab("$ million") +
   xlab("Year")
+
+# Seasonal plots
+# Similar to time plot but data is plotted against the individual season
+# seasonal_plot_1
+ggseasonplot(a10, year.labels = TRUE, year.labels.left = TRUE) +
+  ylab("$ million") +
+  ggtitle("Seasonal plot: antidiabetic drug sales")
+
+# seasonal_plot_2
+ggseasonplot(a10, polar=TRUE) +
+  ylab("$ million") +
+  ggtitle("Polar seasonal plot: antidiabetic drug sales")
+
+# Seasonal subseries plots
+# Seasonal patterns are collected together in separate mini time plots
+# The horizontal lines means the mean for each month
+ggsubseriesplot(a10) +
+  ylab("$ million") +
+  ggtitle("Seasonal subseries plot: antidiabetic drug sales")
+
+# Scatterplots
+print(elecdemand)
+autoplot(elecdemand[,c("Demand","Temperature")], facets=TRUE) +
+  xlab("Year: 2014") + ylab("") +
+  ggtitle("Half-hourly electricity demand: Victoria, Australia")
+
+as.data.frame(elecdemand) |>
+  ggplot(aes(x = Temperature, y = Demand)) +
+  geom_point() +
+  ylab("Demand (GW)") + xlab("Temperature (Celcius)")
