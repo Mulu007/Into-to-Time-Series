@@ -70,3 +70,9 @@ print(Acf(beer2, plot = FALSE))
 aelec <- window(elec, start=1980)
 autoplot(aelec) + xlab("Year") + ylab("GWh")
 ggAcf(aelec, lag=48)
+
+#white noise
+set.seed(30)
+y <- ts(rnorm(50))
+autoplot(y) + ggtitle("White noise")
+ggAcf(y)
