@@ -57,3 +57,9 @@ install.packages("GGally")
 GGally::ggpairs(as.data.frame(visnights[, 1:5]))
 
 print(visnights)
+
+# Lag plots
+beer2 <- window(ausbeer, start=1992)
+gglagplot(beer2)
+
+
