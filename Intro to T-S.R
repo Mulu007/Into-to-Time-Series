@@ -62,4 +62,11 @@ print(visnights)
 beer2 <- window(ausbeer, start=1992)
 gglagplot(beer2)
 
+# Autocorrelation
+ggAcf(beer2)
+print(Acf(beer2, plot = FALSE))
 
+# Trends and seasonality in autocorrelation
+aelec <- window(elec, start=1980)
+autoplot(aelec) + xlab("Year") + ylab("GWh")
+ggAcf(aelec, lag=48)
