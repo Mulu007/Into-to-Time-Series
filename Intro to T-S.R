@@ -4,6 +4,7 @@ y <- ts(c(123, 39, 78, 52, 110), start = 2012, frequency = 1)
 # It automatically loads forecast, ggplot2, fma & expsmooth
 install.packages("fpp2")
 library(fpp2)
+library(tidyverse)
 
 # plot-1
 autoplot(melsyd[, "Economy.Class"]) +
@@ -76,3 +77,56 @@ set.seed(30)
 y <- ts(rnorm(50))
 autoplot(y) + ggtitle("White noise")
 ggAcf(y)
+
+# Exercise
+# Daily morning gold prices in US dollars. 
+# 1 January 1985 – 31 March 1989.
+view(gold)
+# Quarterly production of woollen yarn in Australia
+# tonnes. Mar 1965 – Sep 1994.
+view(woolyrn)
+# Australian monthly gas production: 1956–1995.
+view(gas)
+
+autoplot(gold)
+which.max(gold)
+autoplot(woolyrnq)
+autoplot(gas)
+
+tute1 <- read.csv("tute1.csv", header = TRUE)
+View(tute1)
+
+# Converting the data to time series
+# dataframe indexing
+# data[row, column]
+# tute1[,-1]
+# Give me all rows but drop the first column
+mytimeseries <- ts(tute1[,-1], start=1981, frequency=4)
+view(mytimeseries)
+
+# plotting
+autoplot(mytimeseries, facets = TRUE)
+
+# The second argument (skip=1) is required because the Excel sheet has two header rows.
+retaildata <- readxl::read_excel("retail.xlsx", skip = 1)
+myts <- ts(retaildata[, "A3349873A"],
+           frequency = 12,
+           start = c(1982, 4))
+view(myts)
+
+autoplot(myts)
+ggseasonplot(myts, polar = TRUE)
+ggsubseriesplot(myts)
+gglagplot(myts)
+ggAcf(myts)
+
+# No. 4
+# Annual bituminous coal production in the USA: 1920–1968.
+view(bicoal)
+ts_coal <- ts(bicoal, start = 1920)
+autoplot(ts_coal)
+ggseasonplot(ts_coal)
+ggsubseriesplot(ts_coal)
+gglagplot(ts_coal)
+ggAcf(ts_coal)
+
