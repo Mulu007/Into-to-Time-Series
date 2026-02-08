@@ -130,3 +130,17 @@ ggsubseriesplot(ts_coal)
 gglagplot(ts_coal)
 ggAcf(ts_coal)
 
+###### FORECASTING METHODS ########################
+beer2 <- window(ausbeer, start = 1992, end = c(2007,4))
+view(beer2)
+
+autoplot(beer2) +
+  autolayer(meanf(beer2, h = 11),
+            series = "Mean", PI = FALSE) +
+  autolayer(naive(beer2, h = 11),
+            series = "Naive", PI = FALSE) +
+  autolayer(snaive(beer2, h = 11),
+            series = "Seasonal naive", PI = FALSE) +
+  ggtitle("Forecasts for quarterly beer production") +
+  xlab("Year") + ylab("Megalitres") +
+  guides(colour = guide_legend(title = "Forecast"))
