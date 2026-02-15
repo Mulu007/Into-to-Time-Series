@@ -144,3 +144,36 @@ autoplot(beer2) +
   ggtitle("Forecasts for quarterly beer production") +
   xlab("Year") + ylab("Megalitres") +
   guides(colour = guide_legend(title = "Forecast"))
+
+# non seasonal methods on a 200 daily google stock chart
+autoplot(goog200) +
+  autolayer(meanf(goog200, h = 40),
+            series = "Mean", PI = FALSE) +
+  autolayer(rwf(goog200, h = 40),
+            series = "Naive", PI = FALSE) +
+  autolayer(rwf(goog200, drift = TRUE, h = 40),
+            series = "Drift", PI = FALSE) +
+  ggtitle("Google stock (daily ending 6 Dec 2013)") +
+  xlab("Day") + ylab("Closing Price (US$)") +
+  guides(colour = guide_legend(title = "Forecast"))
+
+# Transformations and adjustments
+# Calendar adjustments
+dframe <- cbind(Monthly = milk,
+                DailyAverage = milk/monthdays(milk))
+autoplot(dframe, facet=TRUE) +
+  xlab("Years") + ylab("Pounds") +
+  ggtitle("Milk production per cow")
+
+# Box- Cox Tranformations
+(lambda <- BoxCox.lambda(elec))
+autoplot(BoxCox(elec,lambda))
+
+#Bias Adjustment
+fc <- rwf(eggs, drift=TRUE, lambda=0, h=50, level=80)
+fc2 <- rwf(eggs, drift=TRUE, lambda=0, h=50, level=80,
+           biasadj=TRUE)
+autoplot(eggs) +
+  autolayer(fc, series="Simple back transformation") +
+  autolayer(fc2, series="Bias adjusted", PI=FALSE) +
+  guides(colour=guide_legend(title="Forecast"))
