@@ -177,3 +177,20 @@ autoplot(eggs) +
   autolayer(fc, series="Simple back transformation") +
   autolayer(fc2, series="Bias adjusted", PI=FALSE) +
   guides(colour=guide_legend(title="Forecast"))
+
+#Residual Analysis
+res <- residuals(naive(goog200))
+autoplot(res) + xlab("Day") + ylab("") +
+  ggtitle("Residuals from naïve method")
+
+gghistogram(res) + ggtitle("Histogram of residuals")
+
+ggAcf(res) + ggtitle("ACF of residuals")
+
+
+# Portmanteau tests for autcorrelation
+# Box - Pierce test
+Box.test(res, lag=10)
+# Box-Ljung test
+Box.test(res,lag=10, type="Lj")
+
