@@ -261,3 +261,17 @@ mse <- colMeans(e^2, na.rm = T)
 # Plot the MSE values against the forecast horizon
 data.frame(h = 1:8, MSE = mse) %>%
   ggplot(aes(x = h, y = MSE)) + geom_point()
+
+autoplot(uschange[,c("Consumption","Income")]) +
+  ylab("% change") + xlab("Year")
+
+uschange %>%
+  as.data.frame() %>%
+  ggplot(aes(x=Income, y=Consumption)) +
+  ylab("Consumption (quarterly % change)") +
+  xlab("Income (quarterly % change)") +
+  geom_point() +
+  geom_smooth(method="lm", se= FALSE)
+
+tslm(Consumption ~ Income, data = uschange)
+# tslm(formula = Consumption ~ Income, data = uschange)
