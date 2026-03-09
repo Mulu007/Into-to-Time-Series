@@ -265,6 +265,7 @@ data.frame(h = 1:8, MSE = mse) %>%
 autoplot(uschange[,c("Consumption","Income")]) +
   ylab("% change") + xlab("Year")
 
+# Simple linear regression
 uschange %>%
   as.data.frame() %>%
   ggplot(aes(x=Income, y=Consumption)) +
@@ -275,3 +276,31 @@ uschange %>%
 
 tslm(Consumption ~ Income, data = uschange)
 # tslm(formula = Consumption ~ Income, data = uschange)
+
+# Multiple linear regression
+uschange %>%
+  as.data.frame() %>%
+  GGally::ggpairs()
+
+# Fitted data
+fit.consMR <- tslm(
+  Consumption ~ Income + Production + Unemployment + Savings,
+  data=uschange)
+summary(fit.consMR)
+
+#fitted plot
+autoplot(uschange[,'Consumption'], series="Data") +
+  autolayer(fitted(fit.consMR), series="Fitted") +
+  xlab("Year") + ylab("") +
+  ggtitle("Percent change in US consumption expenditure") +
+  guides(colour=guide_legend(title=" "))
+
+cbind(Data = uschange[,"Consumption"],
+      Fitted = fitted(fit.consMR)) %>%
+  as.data.frame() %>%
+  ggplot(aes(x=Data, y=Fitted)) +
+  geom_point() +
+  ylab("Fitted (predicted values)") +
+  xlab("Data (actual values)") +
+  ggtitle("Percent change in US consumption expenditure") +
+  geom_abline(intercept=0, slope=1)
